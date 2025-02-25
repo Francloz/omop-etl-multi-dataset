@@ -21,7 +21,7 @@ For converting Synthea dataset into OMOP, the [ETL-Synthea by OHDSI](https://git
 devtools::install_github("OHDSI/ETL-Synthea")
 library(ETLSyntheaBuilder)
 
-cd <- DatabaseConnector::createConnectionDetails(dbms = "postgresql",server = "localhost/synthea_omop", user = "postgres", password = "postgres", port = 5432, pathToDriver = "~/PAthToDrivers")
+cd <- DatabaseConnector::createConnectionDetails(dbms = "postgresql",server = "localhost/synthea_omop", user = "postgres", password = "postgres", port = 5432, pathToDriver = "~/PathToDrivers")
 syntheaVersion <- "3.3.0"
 syntheaSchema  <- "native"
 cdmSchema      <- "omop_schema"
@@ -51,3 +51,5 @@ ETLSyntheaBuilder::CreateExtraIndices(connectionDetails = cd, cdmSchema = cdmSch
 
 ETLSyntheaBuilder::LoadEventTables(connectionDetails = cd, cdmSchema = cdmSchema, syntheaSchema = syntheaSchema, cdmVersion = cdmVersion, syntheaVersion = syntheaVersion)
 ```
+
+On [ETL-Synthea/vignettes](https://github.com/OHDSI/ETL-Synthea/tree/main/vignettes) it can be seen how the mapping is actually done for each table of the OMOP CDM, in order to see posible failures and where data actually came from.
