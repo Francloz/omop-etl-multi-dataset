@@ -1,0 +1,2095 @@
+{
+  "name": "not_have_cvd_or_diabetes",
+  "remarks": [
+    "A blank module"
+  ],
+  "Record_MetabolicPanel": {
+    "type": "DiagnosticReport",
+    "number_of_observations": 8,
+    "codes": [
+      {
+        "system": "LOINC",
+        "code": "51990-0",
+        "display": "Basic metabolic panel - Blood",
+        "value_set": ""
+      }
+    ],
+    "observations": [
+      {
+        "category": "laboratory",
+        "vital_sign": "Glucose",
+        "codes": [
+          {
+            "system": "LOINC",
+            "code": "2339-0",
+            "display": "Glucose [Mass/volume] in Blood"
+          }
+        ],
+        "unit": "mg/dL"
+      },
+      {
+        "category": "laboratory",
+        "vital_sign": "Urea Nitrogen",
+        "codes": [
+          {
+            "system": "LOINC",
+            "code": "6299-2",
+            "display": "Urea nitrogen [Mass/volume] in Blood"
+          }
+        ],
+        "unit": "mg/dL"
+      },
+      {
+        "category": "laboratory",
+        "vital_sign": "Creatinine",
+        "codes": [
+          {
+            "system": "LOINC",
+            "code": "38483-4",
+            "display": "Creatinine [Mass/volume] in Blood"
+          }
+        ],
+        "unit": "mg/dL"
+      },
+      {
+        "category": "laboratory",
+        "vital_sign": "Calcium",
+        "codes": [
+          {
+            "system": "LOINC",
+            "code": "49765-1",
+            "display": "Calcium [Mass/volume] in Blood"
+          }
+        ],
+        "unit": "mg/dL"
+      },
+      {
+        "category": "laboratory",
+        "vital_sign": "Sodium",
+        "codes": [
+          {
+            "system": "LOINC",
+            "code": "2947-0",
+            "display": "Sodium [Moles/volume] in Blood"
+          }
+        ],
+        "unit": "mmol/L"
+      },
+      {
+        "category": "laboratory",
+        "vital_sign": "Potassium",
+        "codes": [
+          {
+            "system": "LOINC",
+            "code": "6298-4",
+            "display": "Potassium [Moles/volume] in Blood"
+          }
+        ],
+        "unit": "mmol/L"
+      },
+      {
+        "category": "laboratory",
+        "vital_sign": "Chloride",
+        "codes": [
+          {
+            "system": "LOINC",
+            "code": "2069-3",
+            "display": "Chloride [Moles/volume] in Blood"
+          }
+        ],
+        "unit": "mmol/L"
+      },
+      {
+        "category": "laboratory",
+        "vital_sign": "Carbon Dioxide",
+        "codes": [
+          {
+            "system": "LOINC",
+            "code": "20565-8",
+            "display": "Carbon dioxide, total [Moles/volume] in Blood"
+          }
+        ],
+        "unit": "mmol/L"
+      }
+    ],
+    "direct_transition": "Record_LipidPanel",
+    "name": "Record_MetabolicPanel"
+  },
+  "Record_LipidPanel": {
+    "type": "DiagnosticReport",
+    "number_of_observations": 4,
+    "codes": [
+      {
+        "system": "LOINC",
+        "code": "57698-3",
+        "display": "Lipid panel with direct LDL - Serum or Plasma",
+        "value_set": ""
+      }
+    ],
+    "observations": [
+      {
+        "category": "laboratory",
+        "codes": [
+          {
+            "system": "LOINC",
+            "code": "2093-3",
+            "display": "Cholesterol [Mass/volume] in Serum or Plasma"
+          }
+        ],
+        "unit": "mg/dL",
+        "vital_sign": "Total Cholesterol"
+      },
+      {
+        "category": "laboratory",
+        "vital_sign": "Triglycerides",
+        "codes": [
+          {
+            "system": "LOINC",
+            "code": "2571-8",
+            "display": "Triglycerides"
+          }
+        ],
+        "unit": "mg/dL"
+      },
+      {
+        "category": "laboratory",
+        "vital_sign": "LDL",
+        "codes": [
+          {
+            "system": "LOINC",
+            "code": "18262-6",
+            "display": "Low Density Lipoprotein Cholesterol"
+          }
+        ],
+        "unit": "mg/dL"
+      },
+      {
+        "category": "laboratory",
+        "vital_sign": "HDL",
+        "codes": [
+          {
+            "system": "LOINC",
+            "code": "2085-9",
+            "display": "Cholesterol in HDL [Mass/volume] in Serum or Plasma"
+          }
+        ],
+        "unit": "mg/dL"
+      }
+    ],
+    "direct_transition": "Lab_Surveys",
+    "name": "Record_LipidPanel"
+  },
+  "states": {
+    "Record_children": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "{#}",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 125725006,
+          "display": "Number of dependant children (observable entity)"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "round": false,
+        "parameters": {
+          "high": 1,
+          "low": 0
+        }
+      },
+      "direct_transition": "Record_BP"
+    },
+    "Start_Diabetes_Record": {
+      "type": "Simple",
+      "direct_transition": "Record_Historical_Targets"
+    },
+    "Check_Diabetes": {
+      "type": "Simple",
+      "conditional_transition": [
+        {
+          "transition": "Start_Diabetes_Record",
+          "condition": {
+            "condition_type": "Active Condition",
+            "codes": [
+              {
+                "system": "SNOMED-CT",
+                "code": 44054006,
+                "display": "Diabetes mellitus type 2"
+              }
+            ]
+          }
+        },
+        {
+          "transition": "Check_CVD"
+        }
+      ]
+    },
+    "Check_CVD": {
+      "type": "Simple",
+      "conditional_transition": [
+        {
+          "transition": "Start_CVD_Record",
+          "condition": {
+            "condition_type": "Or",
+            "conditions": [
+              {
+                "condition_type": "Or",
+                "conditions": [
+                  {
+                    "condition_type": "Active Condition",
+                    "codes": [
+                      {
+                        "system": "SNOMED-CT",
+                        "code": 49436004,
+                        "display": "Atrial fibrillation (disorder)"
+                      }
+                    ]
+                  },
+                  {
+                    "condition_type": "Active Condition",
+                    "codes": [
+                      {
+                        "system": "SNOMED-CT",
+                        "code": 44054006,
+                        "display": "Diabetes mellitus type 2"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "condition_type": "Or",
+                "conditions": [
+                  {
+                    "condition_type": "Active Condition",
+                    "codes": [
+                      {
+                        "system": "SNOMED-CT",
+                        "code": 84114007,
+                        "display": "Heart failure (disorder)"
+                      }
+                    ]
+                  },
+                  {
+                    "condition_type": "Active Condition",
+                    "codes": [
+                      {
+                        "system": "SNOMED-CT",
+                        "code": 48447003,
+                        "display": "Chronic heart failure (disorder)"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "transition": "Keep"
+        }
+      ]
+    },
+    "Start_CVD_Record": {
+      "type": "Simple",
+      "direct_transition": "Record_Nt_proBNP"
+    },
+    "Record_Nt_proBNP": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "pg/mL",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "33762-6",
+          "display": "Natriuretic peptide.B prohormone N-Terminal [Mass/volume] in Serum or Plasma"
+        }
+      ],
+      "range": {
+        "low": 100,
+        "high": 2000
+      },
+      "direct_transition": "Minnesota_Living_with_Heart_Failure_Questionnaire_MLHFQ"
+    },
+    "Minnesota_Living_with_Heart_Failure_Questionnaire_MLHFQ": {
+      "type": "MultiObservation",
+      "category": "survey",
+      "number_of_observations": 24,
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "71939-3",
+          "display": "Minnesota Living with Heart Failure Questionnaire [MLHFQ]"
+        }
+      ],
+      "observations": [
+        {
+          "category": "survey",
+          "unit": "",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "85598-1",
+              "display": "Did your heart failure prevent you from living as you wanted during the past month (4 weeks) by causing swelling in your ankles or legs [MLHFQ]"
+            }
+          ],
+          "value_code": {
+            "system": "LOINC",
+            "code": "LA6112-2",
+            "display": "1"
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "85619-5",
+              "display": "Did your heart failure prevent you from living as you wanted during the past month (4 weeks) by making you sit or lie down to rest during the day [MLHFQ]"
+            }
+          ],
+          "value_code": {
+            "system": "LOINC",
+            "code": "LA6112-2",
+            "display": "1"
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "85599-9",
+              "display": "Did your heart failure prevent you from living as you wanted during the past month (4 weeks) by making your walking about or climbing stairs difficult [MLHFQ]"
+            }
+          ],
+          "value_code": {
+            "system": "LOINC",
+            "code": "LA6112-2",
+            "display": "1"
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "85600-5",
+              "display": "Did your heart failure prevent you from living as you wanted during the past month (4 weeks) by making your working around the house or yard difficult [MLHFQ]"
+            }
+          ],
+          "value_code": {
+            "system": "LOINC",
+            "code": "LA6112-2",
+            "display": "1"
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "85601-3",
+              "display": "Did your heart failure prevent you from living as you wanted during the past month (4 weeks) by making your going places away from home difficult [MLHFQ]"
+            }
+          ],
+          "value_code": {
+            "system": "LOINC",
+            "code": "LA6112-2",
+            "display": "1"
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "85602-1",
+              "display": "Did your heart failure prevent you from living as you wanted during the past month (4 weeks) by making your sleeping well at night difficult [MLHFQ]"
+            }
+          ],
+          "value_code": {
+            "system": "LOINC",
+            "code": "LA6112-2",
+            "display": "1"
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "85603-9",
+              "display": "Did your heart failure prevent you from living as you wanted during the past month (4 weeks) by making your relating to or doing things with your friends or family difficult [MLHFQ]"
+            }
+          ],
+          "value_code": {
+            "system": "LOINC",
+            "code": "LA6112-2",
+            "display": "1"
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "85604-7",
+              "display": "Did your heart failure prevent you from living as you wanted during the past month (4 weeks) by making your working to earn a living difficult [MLHFQ]"
+            }
+          ],
+          "value_code": {
+            "system": "LOINC",
+            "code": "LA6112-2",
+            "display": "1"
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "85605-4",
+              "display": "Did your heart failure prevent you from living as you wanted during the past month (4 weeks) by making your recreational pastimes, sports or hobbies difficult [MLHFQ]"
+            }
+          ],
+          "value_code": {
+            "system": "LOINC",
+            "code": "LA6112-2",
+            "display": "1"
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "85606-2",
+              "display": "Did your heart failure prevent you from living as you wanted during the past month (4 weeks) by making your sexual activities difficult [MLHFQ]"
+            }
+          ],
+          "value_code": {
+            "system": "LOINC",
+            "code": "LA6112-2",
+            "display": "1"
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "85607-0",
+              "display": "Did your heart failure prevent you from living as you wanted during the past month (4weeks) by making you eat less of the foods you like [MLHFQ]"
+            }
+          ],
+          "value_code": {
+            "system": "LOINC",
+            "code": "LA6112-2",
+            "display": "1"
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "85608-8",
+              "display": "Did your heart failure prevent you from living as you wanted during the past month (4 weeks) by making you short of breath [MLHFQ]"
+            }
+          ],
+          "value_code": {
+            "system": "LOINC",
+            "code": "LA6112-2",
+            "display": "1"
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "85620-3",
+              "display": "Did your heart failure prevent you from living as you wanted during the past month (4 weeks) by making you tired, fatigued or low on energy [MLHFQ]"
+            }
+          ],
+          "value_code": {
+            "system": "LOINC",
+            "code": "LA6112-2",
+            "display": "1"
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "85610-4",
+              "display": "Did your heart failure prevent you from living as you wanted during the past month (4 weeks) by making you stay in a hospital [MLHFQ]"
+            }
+          ],
+          "value_code": {
+            "system": "LOINC",
+            "code": "LA6112-2",
+            "display": "1"
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "85611-2",
+              "display": "Did your heart failure prevent you from living as you wanted during the past month (4 weeks) by costing you money for medical care [MLHFQ]"
+            }
+          ],
+          "value_code": {
+            "system": "LOINC",
+            "code": "LA6112-2",
+            "display": "1"
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "85612-0",
+              "display": "Did your heart failure prevent you from living as you wanted during the past month (4 weeks) by giving you side effects from treatments [MLHFQ]"
+            }
+          ],
+          "value_code": {
+            "system": "LOINC",
+            "code": "LA6112-2",
+            "display": "1"
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "85613-8",
+              "display": "Did your heart failure prevent you from living as you wanted during the past month (4 weeks) by making you feel you are a burden to your family or friends [MLHFQ]"
+            }
+          ],
+          "value_code": {
+            "system": "LOINC",
+            "code": "LA6112-2",
+            "display": "1"
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "85614-6",
+              "display": "Did your heart failure prevent you from living as you wanted during the past month (4 weeks) by making you feel a loss of self-control in your life [MLHFQ]"
+            }
+          ],
+          "value_code": {
+            "system": "LOINC",
+            "code": "LA6112-2",
+            "display": "1"
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "85615-3",
+              "display": "Did your heart failure prevent you from living as you wanted during the past month (4 weeks) by making you worry [MLHFQ]"
+            }
+          ],
+          "value_code": {
+            "system": "LOINC",
+            "code": "LA6112-2",
+            "display": "1"
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "85616-1",
+              "display": "Did your heart failure prevent you from living as you wanted during the past month (4 weeks) by making it difficult for you to concentrate or remember things [MLHFQ]"
+            }
+          ],
+          "value_code": {
+            "system": "LOINC",
+            "code": "LA6112-2",
+            "display": "1"
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "85617-9",
+              "display": "Did your heart failure prevent you from living as you wanted during the past month (4 weeks) by making you feel depressed [MLHFQ]"
+            }
+          ],
+          "value_code": {
+            "system": "LOINC",
+            "code": "LA6112-2",
+            "display": "1"
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "{score}",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "85618-7",
+              "display": "Physical score [MLHFQ]"
+            }
+          ],
+          "exact": {
+            "quantity": 8
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "{score}",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "85609-6",
+              "display": "Emotional score [MLHFQ]"
+            }
+          ],
+          "exact": {
+            "quantity": 8
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "{score}",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "71938-5",
+              "display": "Total score [MLHFQ]"
+            }
+          ],
+          "exact": {
+            "quantity": 16
+          }
+        }
+      ],
+      "direct_transition": "Keep"
+    },
+    "Record_Historical_Targets": {
+      "type": "MultiObservation",
+      "category": "survey",
+      "number_of_observations": 0,
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "99562-1",
+          "display": "Adherence panel [R-Outcomes]"
+        }
+      ],
+      "observations": [
+        {
+          "category": "survey",
+          "unit": "{score}",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "99564-7",
+              "display": "Do you follow treatment instructions: I remember to do it"
+            }
+          ],
+          "range": {
+            "low": 0,
+            "high": 3
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "{score}",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "99565-4",
+              "display": "Do you follow treatment instructions: I don't stop if I feel bad"
+            }
+          ],
+          "range": {
+            "low": 0,
+            "high": 3
+          }
+        },
+        {
+          "category": "laboratory",
+          "unit": "{score}",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "99566-2",
+              "display": "Do you follow treatment instructions: I don't stop if I feel better"
+            }
+          ],
+          "range": {
+            "low": 0,
+            "high": 3
+          }
+        },
+        {
+          "category": "laboratory",
+          "unit": "{score}",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "90020-9",
+              "display": "Do you follow treatment instructions: I am happy with my treatment"
+            }
+          ],
+          "range": {
+            "low": 0,
+            "high": 3
+          }
+        },
+        {
+          "category": "laboratory",
+          "unit": "{score}",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "99563-9",
+              "display": "Adherence total score [R-Outcomes]"
+            }
+          ],
+          "range": {
+            "low": 0,
+            "high": 3
+          }
+        }
+      ],
+      "direct_transition": "Record_HOMA_IR"
+    },
+    "Record_HOMA_IR": {
+      "type": "Observation",
+      "category": "laboratory",
+      "unit": "{score}",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "92845-7",
+          "display": "Insulin resistance score in Serum by Calculated.CardioIQ"
+        }
+      ],
+      "range": {
+        "low": 0,
+        "high": 100
+      },
+      "direct_transition": "Record_Bodyfat"
+    },
+    "Record_Quesionnaires_IPAQ": {
+      "type": "Observation",
+      "category": "survey",
+      "unit": "Ord",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "77595-7",
+          "display": "Total physical activity score [IPAQ]"
+        }
+      ],
+      "value_code": {
+        "system": "LOINC",
+        "code": "LA9194-7",
+        "display": "Low",
+        "value_set": "SNOMED-CT"
+      },
+      "direct_transition": "Record_Quesionnaires_PSQI"
+    },
+    "Record_Quesionnaires_PSQI": {
+      "type": "Observation",
+      "category": "survey",
+      "unit": "{score}",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": "Pittsburgh Sleep Quality Index score (observable entity)",
+          "display": 761879005
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "round": false,
+        "parameters": {
+          "high": 21,
+          "low": 0
+        }
+      },
+      "direct_transition": "Record_Quesionnaires_HAD"
+    },
+    "Record_Quesionnaires_HAD": {
+      "type": "MultiObservation",
+      "category": "survey",
+      "number_of_observations": 0,
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 273524006,
+          "display": "Hospital anxiety and depression scale (assessment scale)"
+        }
+      ],
+      "observations": [
+        {
+          "category": "survey",
+          "unit": "{score}",
+          "codes": [
+            {
+              "system": "SNOMED-CT",
+              "code": 401319005,
+              "display": "Hospital Anxiety and Depression scale: anxiety score (observable entity)"
+            }
+          ],
+          "range": {
+            "low": 1,
+            "high": 21
+          }
+        },
+        {
+          "category": "laboratory",
+          "unit": "{score}",
+          "codes": [
+            {
+              "system": "SNOMED-CT",
+              "code": 401320004,
+              "display": "Hospital Anxiety and Depression scale: depression score (observable entity)"
+            }
+          ],
+          "range": {
+            "low": 1,
+            "high": 21
+          }
+        }
+      ],
+      "direct_transition": "Record_Quesionnaires_STRAIN"
+    },
+    "Record_Quesionnaires_STRAIN": {
+      "type": "Observation",
+      "category": "survey",
+      "unit": "{score}",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "93038-8",
+          "display": "Stress level"
+        }
+      ],
+      "range": {
+        "low": 1,
+        "high": 10
+      },
+      "direct_transition": "Record_Quesionnaires_SF36"
+    },
+    "Record_Quesionnaires_SF36": {
+      "type": "MultiObservation",
+      "category": "survey",
+      "number_of_observations": 0,
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "71933-6",
+          "display": "Veterans Rand health survey - 36 item (VR-36)"
+        }
+      ],
+      "observations": [
+        {
+          "category": "survey",
+          "unit": "",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "61577-3",
+              "display": "In general, would you say your health is"
+            }
+          ],
+          "value_code": {
+            "system": "LOINC",
+            "code": "LA8967-7",
+            "display": "Good"
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "71932-8",
+              "display": "Does your health now limit you in vigorous activities, such as running, lifting heavy objects, participating in strenuous sports"
+            }
+          ],
+          "value_code": {
+            "system": "LOINC",
+            "code": "LA18855-9",
+            "display": "Yes, limited a little"
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "71931-0",
+              "display": "Does your health now limit you in moderate activities, such as moving a table, pushing a vacuum cleaner, bowling or playing golf"
+            }
+          ],
+          "value_code": {
+            "system": "LOINC",
+            "code": "LA18855-9",
+            "display": "Yes, limited a little"
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "71930-2",
+              "display": "Does your health now limit you in lifting or carrying groceries"
+            }
+          ],
+          "value_code": {
+            "system": "LOINC",
+            "code": "LA18855-9",
+            "display": "Yes, limited a little"
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "71929-4",
+              "display": "Does your health now limit you in climbing several flights of stairs"
+            }
+          ],
+          "value_code": {
+            "system": "LOINC",
+            "code": "LA18855-9",
+            "display": "Yes, limited a little"
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "71928-6",
+              "display": "Does your health now limit you in climbing one flight of stairs"
+            }
+          ],
+          "value_code": {
+            "system": "LOINC",
+            "code": "LA18855-9",
+            "display": "Yes, limited a little"
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "71927-8",
+              "display": "Does your health now limit you in bending, kneeling, stooping"
+            }
+          ],
+          "value_code": {
+            "system": "LOINC",
+            "code": "LA18855-9",
+            "display": "Yes, limited a little"
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "71926-0",
+              "display": "Does your health now limit you in walking more than a mile"
+            }
+          ],
+          "value_code": {
+            "system": "LOINC",
+            "code": "LA18855-9",
+            "display": "Yes, limited a little"
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "71925-2",
+              "display": "Does your health now limit you in walking several blocks"
+            }
+          ],
+          "value_code": {
+            "system": "LOINC",
+            "code": "LA18855-9",
+            "display": "Yes, limited a little"
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "71924-5",
+              "display": "Does your health now limit you in walking one block"
+            }
+          ],
+          "value_code": {
+            "system": "LOINC",
+            "code": "LA18855-9",
+            "display": "Yes, limited a little"
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "71923-7",
+              "display": "Does your health now limit you in bathing or dressing yourself"
+            }
+          ],
+          "value_code": {
+            "system": "LOINC",
+            "code": "LA18855-9",
+            "display": "Yes, limited a little"
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "71922-9",
+              "display": "As a result of your physical health, have you cut down the amount of time you spent on work or other activities in the past 4 weeks"
+            }
+          ],
+          "value_code": {
+            "system": "LOINC",
+            "code": "LA18384-0",
+            "display": "Yes, some of the time"
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "71921-1",
+              "display": "As a result of your physical health, have you accomplished less than you would like in the past 4 weeks"
+            }
+          ],
+          "value_code": {
+            "system": "LOINC",
+            "code": "LA18384-0",
+            "display": "Yes, some of the time"
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "71920-3",
+              "display": "As a result of your physical health, were you limited in the kind of work in the past 4 weeks"
+            }
+          ],
+          "value_code": {
+            "system": "LOINC",
+            "code": "LA18384-0",
+            "display": "Yes, some of the time"
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "71919-5",
+              "display": "As a result of your physical health, have you had difficulty performing the work or other activities - for example, it took extra effort in the past 4 weeks"
+            }
+          ],
+          "value_code": {
+            "system": "LOINC",
+            "code": "LA18384-0",
+            "display": "Yes, some of the time"
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "71918-7",
+              "display": "As a result of any emotional problems, have you cut down the amount of time you spent on work or other activities in the past 4 weeks"
+            }
+          ],
+          "value_code": {
+            "system": "LOINC",
+            "code": "LA18384-0",
+            "display": "Yes, some of the time"
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "71917-9",
+              "display": "As a result of any emotional problems, have you accomplished less than you would like in the past 4 weeks"
+            }
+          ],
+          "value_code": {
+            "system": "LOINC",
+            "code": "LA18384-0",
+            "display": "Yes, some of the time"
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "71916-1",
+              "display": "As a result of any emotional problems, you didn't do work or other activities as carefully as usual in the past 4 weeks"
+            }
+          ],
+          "value_code": {
+            "system": "LOINC",
+            "code": "LA18384-0",
+            "display": "Yes, some of the time"
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "71915-3",
+              "display": "During the past 4 weeks, to what extent has your physical health or emotional problems interfered with your normal social activities with family, friends, neighbors or groups"
+            }
+          ],
+          "value_code": {
+            "system": "LOINC",
+            "code": "LA14454-5",
+            "display": "Slightly"
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "71914-6",
+              "display": "How much bodily pain have you had during the past 4 weeks"
+            }
+          ],
+          "value_code": {
+            "system": "LOINC",
+            "code": "LA6752-5",
+            "display": "Mild"
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "71913-8",
+              "display": "During the past 4 weeks, much did pain interfere with your normal work - including both work outside the home and house work"
+            }
+          ],
+          "value_code": {
+            "system": "LOINC",
+            "code": "LA13863-8",
+            "display": "A little bit"
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "71912-0",
+              "display": "Did you feel full of pep during the past 4 weeks"
+            }
+          ],
+          "value_code": {
+            "system": "LOINC",
+            "code": "LA14732-4",
+            "display": "A little of the time"
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "71911-2",
+              "display": "Have you been a very nervous person during the past 4 weeks"
+            }
+          ],
+          "value_code": {
+            "system": "LOINC",
+            "code": "LA14732-4",
+            "display": "A little of the time"
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "71910-4",
+              "display": "Have you felt so down in the dumps that nothing could cheer you up during the past 4 weeks"
+            }
+          ],
+          "value_code": {
+            "system": "LOINC",
+            "code": "LA14732-4",
+            "display": "A little of the time"
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "71909-6",
+              "display": "Have you felt calm and peaceful during the past 4 weeks"
+            }
+          ],
+          "value_code": {
+            "system": "LOINC",
+            "code": "LA14732-4",
+            "display": "A little of the time"
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "71908-8",
+              "display": "Did you have a lot of energy during the past 4 weeks"
+            }
+          ],
+          "value_code": {
+            "system": "LOINC",
+            "code": "LA14732-4",
+            "display": "A little of the time"
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "71907-0",
+              "display": "Have you felt downhearted and blue during the past 4 weeks"
+            }
+          ],
+          "value_code": {
+            "system": "LOINC",
+            "code": "LA14732-4",
+            "display": "A little of the time"
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "71906-2",
+              "display": "Did you feel worn out during the past 4 weeks"
+            }
+          ],
+          "value_code": {
+            "system": "LOINC",
+            "code": "LA14732-4",
+            "display": "A little of the time"
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "71905-4",
+              "display": "Have you been a happy person during the past 4 weeks"
+            }
+          ],
+          "value_code": {
+            "system": "LOINC",
+            "code": "LA14732-4",
+            "display": "A little of the time"
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "71904-7",
+              "display": "Did you feel tired during the past 4 weeks"
+            }
+          ],
+          "value_code": {
+            "system": "LOINC",
+            "code": "LA14732-4",
+            "display": "A little of the time"
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "71903-9",
+              "display": "During the past 4 weeks, how much of the time has your physical health or emotional problems interfered with your social activities - like visiting with friends, relatives, etc."
+            }
+          ],
+          "value_code": {
+            "system": "LOINC",
+            "code": "LA14732-4",
+            "display": "A little of the time"
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "71902-1",
+              "display": "I seem to get sick a lot easier than other people"
+            }
+          ],
+          "value_code": {
+            "system": "LOINC",
+            "code": "LA12693-0",
+            "display": "Not sure"
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "71901-3",
+              "display": "I am as healthy as anyone I know"
+            }
+          ],
+          "value_code": {
+            "system": "LOINC",
+            "code": "LA12693-0",
+            "display": "Not sure"
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "71900-5",
+              "display": "I expect my health to get worse"
+            }
+          ],
+          "value_code": {
+            "system": "LOINC",
+            "code": "LA12693-0",
+            "display": "Not sure"
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "71899-9",
+              "display": "My health is excellent"
+            }
+          ],
+          "value_code": {
+            "system": "LOINC",
+            "code": "LA12693-0",
+            "display": "Not sure"
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "71898-1",
+              "display": "Compared to one year ago, how would you rate your physical health in general now"
+            }
+          ],
+          "value_code": {
+            "system": "LOINC",
+            "code": "LA18343-6",
+            "display": "Somewhat worse"
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "71897-3",
+              "display": "Compared to one year ago, how would you rate your emotional problems, such as feeling anxious,depressed or irritable, now"
+            }
+          ],
+          "value_code": {
+            "system": "LOINC",
+            "code": "LA18343-6",
+            "display": "Somewhat worse"
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "{score}",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "71989-8",
+              "display": "VR 36 PCS, T score, oblique method"
+            }
+          ],
+          "range": {
+            "low": 40,
+            "high": 60
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "{score}",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "71990-6",
+              "display": "VR 36 MCS, T score, oblique method"
+            }
+          ],
+          "range": {
+            "low": 40,
+            "high": 60
+          }
+        },
+        {
+          "category": "survey",
+          "unit": "{score}",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "72007-8",
+              "display": "VR 36 PCS, T score, orthogonal method"
+            }
+          ],
+          "range": {
+            "low": 40,
+            "high": 60
+          }
+        },
+        {
+          "category": "laboratory",
+          "unit": "{score}",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "72008-6",
+              "display": "VR 36 MCS, T score, orthogonal method"
+            }
+          ],
+          "range": {
+            "low": 40,
+            "high": 60
+          }
+        }
+      ],
+      "direct_transition": "Record_Quesionnaires_EDEQ"
+    },
+    "Record_Quesionnaires_EDEQ": {
+      "type": "Observation",
+      "category": "survey",
+      "unit": "{score}",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": 446039003,
+          "display": "Eating disorder examination questionnaire score (observable entity)"
+        }
+      ],
+      "range": {
+        "low": 0,
+        "high": 6
+      },
+      "direct_transition": "Record_LipidPanel"
+    },
+    "Record_LipidPanel": {
+      "type": "DiagnosticReport",
+      "number_of_observations": 4,
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "57698-3",
+          "display": "Lipid panel with direct LDL - Serum or Plasma"
+        }
+      ],
+      "observations": [
+        {
+          "category": "laboratory",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "2093-3",
+              "display": "Cholesterol [Mass/volume] in Serum or Plasma"
+            }
+          ],
+          "unit": "mg/dL",
+          "vital_sign": "Total Cholesterol"
+        },
+        {
+          "category": "laboratory",
+          "vital_sign": "Triglycerides",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "2571-8",
+              "display": "Triglycerides"
+            }
+          ],
+          "unit": "mg/dL"
+        },
+        {
+          "category": "laboratory",
+          "vital_sign": "LDL",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "18262-6",
+              "display": "Low Density Lipoprotein Cholesterol"
+            }
+          ],
+          "unit": "mg/dL"
+        },
+        {
+          "category": "laboratory",
+          "vital_sign": "HDL",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "2085-9",
+              "display": "Cholesterol in HDL [Mass/volume] in Serum or Plasma"
+            }
+          ],
+          "unit": "mg/dL"
+        }
+      ],
+      "direct_transition": "Record_MetabolicPanel"
+    },
+    "Record_MetabolicPanel": {
+      "type": "DiagnosticReport",
+      "number_of_observations": 8,
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "51990-0",
+          "display": "Basic metabolic panel - Blood"
+        }
+      ],
+      "observations": [
+        {
+          "category": "laboratory",
+          "vital_sign": "Glucose",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "2339-0",
+              "display": "Glucose [Mass/volume] in Blood"
+            }
+          ],
+          "unit": "mg/dL"
+        },
+        {
+          "category": "laboratory",
+          "vital_sign": "Urea Nitrogen",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "6299-2",
+              "display": "Urea nitrogen [Mass/volume] in Blood"
+            }
+          ],
+          "unit": "mg/dL"
+        },
+        {
+          "category": "laboratory",
+          "vital_sign": "Creatinine",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "38483-4",
+              "display": "Creatinine [Mass/volume] in Blood"
+            }
+          ],
+          "unit": "mg/dL"
+        },
+        {
+          "category": "laboratory",
+          "vital_sign": "Calcium",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "49765-1",
+              "display": "Calcium [Mass/volume] in Blood"
+            }
+          ],
+          "unit": "mg/dL"
+        },
+        {
+          "category": "laboratory",
+          "vital_sign": "Sodium",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "2947-0",
+              "display": "Sodium [Moles/volume] in Blood"
+            }
+          ],
+          "unit": "mmol/L"
+        },
+        {
+          "category": "laboratory",
+          "vital_sign": "Potassium",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "6298-4",
+              "display": "Potassium [Moles/volume] in Blood"
+            }
+          ],
+          "unit": "mmol/L"
+        },
+        {
+          "category": "laboratory",
+          "vital_sign": "Chloride",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "2069-3",
+              "display": "Chloride [Moles/volume] in Blood"
+            }
+          ],
+          "unit": "mmol/L"
+        },
+        {
+          "category": "laboratory",
+          "vital_sign": "Carbon Dioxide",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "20565-8",
+              "display": "Carbon dioxide, total [Moles/volume] in Blood"
+            }
+          ],
+          "unit": "mmol/L"
+        }
+      ],
+      "direct_transition": "Record_Liver_Panel"
+    },
+    "Record_Liver_Panel": {
+      "type": "MultiObservation",
+      "category": "laboratory",
+      "number_of_observations": 0,
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "78699-6",
+          "display": "Liver fibrosis score panel - Serum or Plasma Calculated by FibroMeter"
+        }
+      ],
+      "observations": [
+        {
+          "category": "laboratory",
+          "unit": "U/L",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "1742-6",
+              "display": "Alanine aminotransferase [Enzymatic activity/volume] in Serum or Plasma"
+            }
+          ],
+          "range": {
+            "low": 4,
+            "high": 36
+          }
+        },
+        {
+          "category": "laboratory",
+          "unit": "U/L",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "1920-8",
+              "display": "Aspartate aminotransferase [Enzymatic activity/volume] in Serum or Plasma"
+            }
+          ],
+          "range": {
+            "low": 8,
+            "high": 33
+          }
+        },
+        {
+          "category": "laboratory",
+          "unit": "U/L",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "2324-2",
+              "display": "Gamma glutamyl transferase [Enzymatic activity/volume] in Serum or Plasma"
+            }
+          ],
+          "range": {
+            "low": 5,
+            "high": 40
+          }
+        }
+      ],
+      "direct_transition": "Record_C_protein"
+    },
+    "Record_C_protein": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "mg/L",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "1988-5",
+          "display": "C reactive protein [Mass/volume] in Serum or Plasma"
+        }
+      ],
+      "range": {
+        "low": 0,
+        "high": 20
+      },
+      "conditional_transition": [
+        {
+          "transition": "Record_HbA1c_2",
+          "condition": {
+            "condition_type": "Gender",
+            "gender": "F"
+          }
+        },
+        {
+          "transition": "Record_HbA1c"
+        }
+      ]
+    },
+    "Record_HbA1c": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "%",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "4548-4",
+          "display": "Hemoglobin A1c/Hemoglobin.total in Blood"
+        }
+      ],
+      "range": {
+        "low": 14,
+        "high": 17.5
+      },
+      "direct_transition": "Check_Diabetes"
+    },
+    "Record_HbA1c_2": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "%",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "4548-4",
+          "display": "Hemoglobin A1c/Hemoglobin.total in Blood"
+        }
+      ],
+      "range": {
+        "low": 12.3,
+        "high": 15.3
+      },
+      "direct_transition": "Check_Diabetes"
+    },
+    "Record_BP": {
+      "type": "MultiObservation",
+      "category": "vital-signs",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "85354-9",
+          "display": "Blood pressure panel with all children optional"
+        }
+      ],
+      "observations": [
+        {
+          "category": "vital-signs",
+          "vital_sign": "Systolic Blood Pressure",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "8480-6",
+              "display": "Systolic Blood Pressure"
+            }
+          ],
+          "unit": "mm[Hg]"
+        },
+        {
+          "category": "vital-signs",
+          "vital_sign": "Diastolic Blood Pressure",
+          "codes": [
+            {
+              "system": "LOINC",
+              "code": "8462-4",
+              "display": "Diastolic Blood Pressure"
+            }
+          ],
+          "unit": "mm[Hg]"
+        }
+      ],
+      "direct_transition": "Record Waist Circumference"
+    },
+    "Record_Heart_Rate": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "/min",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "8867-4",
+          "display": "Heart rate"
+        }
+      ],
+      "vital_sign": "Heart Rate",
+      "direct_transition": "Record_Respiratory_Rate"
+    },
+    "Record_Respiratory_Rate": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "/min",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "9279-1",
+          "display": "Respiratory rate"
+        }
+      ],
+      "vital_sign": "Respiration Rate",
+      "direct_transition": "Record_Quesionnaires_IPAQ"
+    },
+    "Terminal": {
+      "type": "Terminal"
+    },
+    "Record_Bodyfat": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "kg",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "73708-0",
+          "display": "Body fat [Mass] Calculated"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "round": false,
+        "parameters": {
+          "high": 40,
+          "low": 6
+        }
+      },
+      "direct_transition": "Record Fat-free mass"
+    },
+    "Record Fat-free mass": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "kg",
+      "codes": [
+        {
+          "system": "LOINC",
+          "code": "91557-9",
+          "display": "Lean body weight"
+        }
+      ],
+      "distribution": {
+        "kind": "UNIFORM",
+        "round": false,
+        "parameters": {
+          "high": 70,
+          "low": 40
+        }
+      },
+      "direct_transition": "Check_CVD"
+    },
+    "Record Waist Circumference": {
+      "type": "Observation",
+      "category": "vital-signs",
+      "unit": "cm",
+      "codes": [
+        {
+          "system": "SNOMED-CT",
+          "code": 276361009,
+          "display": "Waist circumference (observable entity)"
+        }
+      ],
+      "direct_transition": "Record_Heart_Rate",
+      "range": {
+        "low": 25,
+        "high": 50
+      }
+    },
+    "Keep": {
+      "type": "Terminal"
+    },
+    "Initial": {
+      "type": "Initial",
+      "conditional_transition": [
+        {
+          "transition": "Terminal",
+          "condition": {
+            "condition_type": "Or",
+            "conditions": [
+              {
+                "condition_type": "Or",
+                "conditions": [
+                  {
+                    "condition_type": "Active Condition",
+                    "codes": [
+                      {
+                        "system": "SNOMED-CT",
+                        "code": 49436004,
+                        "display": "Atrial fibrillation (disorder)"
+                      }
+                    ]
+                  },
+                  {
+                    "condition_type": "Active Condition",
+                    "codes": [
+                      {
+                        "system": "SNOMED-CT",
+                        "code": 84114007,
+                        "display": "Heart failure (disorder)"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "condition_type": "Or",
+                "conditions": [
+                  {
+                    "condition_type": "Active Condition",
+                    "codes": [
+                      {
+                        "system": "SNOMED-CT",
+                        "code": 48447003,
+                        "display": "Chronic heart failure (disorder)"
+                      }
+                    ]
+                  },
+                  {
+                    "condition_type": "Active Condition",
+                    "codes": [
+                      {
+                        "system": "SNOMED-CT",
+                        "code": 44054006,
+                        "display": "Diabetes mellitus type 2 (disorder)"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "transition": "Record_children"
+        }
+      ]
+    }
+  },
+  "gmf_version": 2
+}
