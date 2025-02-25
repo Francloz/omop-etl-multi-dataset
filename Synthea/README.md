@@ -1,7 +1,7 @@
 # ETL - Synthea to OMOP
 
 ## Synthea Data Generation
-Data is generated using [keep modules](https://mitre.github.io/fhir-for-research/modules/synthea-customizing). The main idea of these modules consists on normal synthea generation but only keeping the generated patients that satisfy concrete defined conditions. Three keep modules are created via [Synthea Module Builder](https://synthetichealth.github.io/module-builder/) depending on the diseases desired: CVD, Diabetes and None of the previous (/keep_modules). The idea is that each of them construct 1/3 (~333/1000) of the final data simulating the trials.
+Data is generated using [keep modules](https://mitre.github.io/fhir-for-research/modules/synthea-customizing). The main idea of these modules consists on normal synthea generation but only keeping the generated patients that satisfy concrete defined conditions. Three keep modules are created via [Synthea Module Builder](https://synthetichealth.github.io/module-builder/) depending on the diseases desired: CVD, Diabetes and None of the previous (**/keep_modules**). The idea is that each of them construct 1/3 (~333/1000) of the final data simulating the trials.
 
 To do so, the keep module desired is copied to the synthea folder (outside of the rest of the folders, just inside synthea folder) and the following command is executed:
 
@@ -26,7 +26,7 @@ syntheaVersion <- "3.3.0"
 syntheaSchema  <- "native"
 cdmSchema      <- "omop_schema"
 cdmVersion     <- "5.4"
-syntheaFileLoc <- "~/trial_data"
+syntheaFileLoc <- "~/PathToSyntheaData"
 vocabFileLoc   <- "~/PathToVocab"
 ```
 6. Create CDM Tables:
