@@ -17,7 +17,7 @@ For converting Synthea dataset into OMOP, the [ETL-Synthea by OHDSI](https://git
 3. Create a native schema for Synthea data (`native`)
 4. Install [JDBC postgres drivers](https://jdbc.postgresql.org/download/) and save on a selected folder (`/PathToDrivers`)
 5. Download vocabularies from [Athenea](https://athena.ohdsi.org/vocabulary/download-history) and save them in a located folder (`/PathToVocab`)
-```
+``` r
 devtools::install_github("OHDSI/ETL-Synthea")
 library(ETLSyntheaBuilder)
 
@@ -30,20 +30,27 @@ syntheaFileLoc <- "~/PathToSyntheaData"
 vocabFileLoc   <- "~/PathToVocab"
 ```
 6. Create CDM Tables:
-```
+``` r
 ETLSyntheaBuilder::CreateCDMTables(connectionDetails = cd, cdmSchema = cdmSchema, cdmVersion = cdmVersion)
 ```
-7. Create Synthea tables executing `create_synthea_tables.sql` due to a syntax error in OHDSI R function ("start"_date on payer_transitions)
-8. Load Synthea Tables with generated data (trial_data):
+7. Create Synthea tables executing `create_synthea_tables.sql` due to a syntax error in OHDSI R function ("start"_date on payer_transitions):
+``` r
+sqlFilePath <- "~/create_synthea_tables.sql"
+sqlQuery <- readChar(sqlFilePath, file.info(sqlFilePath)$size)
+conn <- DatabaseConnector::connect(connectionDetails)
+DatabaseConnector::executeSql(conn, sqlQuery)
+DatabaseConnector::disconnect(conn)
 ```
+8. Load Synthea Tables with generated data (trial_data):
+``` r
 ETLSyntheaBuilder::LoadSyntheaTables(connectionDetails = cd, syntheaSchema = syntheaSchema, syntheaFileLoc = syntheaFileLoc)
 ```
 9. Load vocabulary from CSV files
-```
+``` r
 ETLSyntheaBuilder::LoadVocabFromCsv(connectionDetails = cd, cdmSchema = cdmSchema, vocabFileLoc = vocabFileLoc)
 ```
 10. Execute and poblate CDM tables
-```
+``` r
 ETLSyntheaBuilder::CreateMapAndRollupTables(connectionDetails = cd, cdmSchema = cdmSchema, syntheaSchema = syntheaSchema, cdmVersion = cdmVersion, syntheaVersion = syntheaVersion)
 
 # Optional Steps
